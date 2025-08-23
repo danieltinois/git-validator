@@ -1,0 +1,21 @@
+{
+  "name": "git-validator",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "bin": {
+    "git-validator": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
