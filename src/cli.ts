@@ -18,10 +18,17 @@ echo "🚀 Running git-validator pre-push..."
 # Validate branch
 ./node_modules/.bin/git-validator branch "$branch" || exit 1
 
-# Validate ONLY new commits (not yet pushed to origin)
-git log origin/$branch..HEAD --pretty=format:%s | while IFS= read -r commit; do
-  ./node_modules/.bin/git-validator commit "$commit" || exit 1
-done
+# Check if branch exists on origin
+if git show-ref --verify --quiet refs/remotes/origin/$branch; then
+  echo "🔎 Validating commits not yet pushed..."
+  git log origin/$branch..HEAD --pretty=format:%s | while IFS= read -r commit; do
+    ./node_modules/.bin/git-validator commit "$commit" || exit 1
+  done
+else
+  echo "ℹ️ First push of this branch, validating only the last commit..."
+  last_commit=$(git log -1 --pretty=format:%s)
+  ./node_modules/.bin/git-validator commit "$last_commit" || exit 1
+fi
 
 echo "✅ Branch and commits are valid. Push allowed!"
 `;
