@@ -12,11 +12,13 @@ if (command === 'init') {
         const script = `#!/bin/sh
 branch=$(git rev-parse --abbrev-ref HEAD)
 
+echo "🚀 Running git-validator pre-push..."
+
 # Validate branch
 ./node_modules/.bin/git-validator branch "$branch" || exit 1
 
-# Validate ALL commits in the branch
-for commit in $(git log --pretty=format:%s); do
+# Validate ONLY new commits (not yet pushed to origin)
+git log origin/$branch..HEAD --pretty=format:%s | while IFS= read -r commit; do
   ./node_modules/.bin/git-validator commit "$commit" || exit 1
 done
 
