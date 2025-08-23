@@ -6,7 +6,7 @@ exports.validateCommitMessage = validateCommitMessage;
  * Valid example: "feat: add login"
  */
 function validateCommitMessage(message) {
-    const regex = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([\w\-]+\))?: .{1,50}$/;
+    const regex = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([\w\-]+\))?: .+$/;
     if (!regex.test(message)) {
         return '❌ Invalid commit. Use the Conventional Commits pattern (e.g., feat: add login).';
     }
