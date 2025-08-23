@@ -15,8 +15,8 @@ branch=$(git rev-parse --abbrev-ref HEAD)
 # Validate branch
 ./node_modules/.bin/git-validator branch "$branch" || exit 1
 
-# Validate commits that are not yet on remote
-for commit in $(git log origin/$branch..HEAD --pretty=format:%s 2>/dev/null); do
+# Validate ALL commits in the branch
+for commit in $(git log --pretty=format:%s); do
   ./node_modules/.bin/git-validator commit "$commit" || exit 1
 done
 
