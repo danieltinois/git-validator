@@ -13,11 +13,11 @@ if (command === 'init') {
 branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Validate branch
-npx git-validator branch "$branch" || exit 1
+./node_modules/.bin/git-validator branch "$branch" || exit 1
 
 # Validate commits that are not yet on remote
 for commit in $(git log origin/$branch..HEAD --pretty=format:%s 2>/dev/null); do
-  npx git-validator commit "$commit" || exit 1
+  ./node_modules/.bin/git-validator commit "$commit" || exit 1
 done
 
 echo "✅ Branch and commits are valid. Push allowed!"
