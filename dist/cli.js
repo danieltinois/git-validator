@@ -12,11 +12,11 @@ if (command === 'init') {
 branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Validate branch
-npx git-validator branch "$branch" || exit 1
+./node_modules/.bin/git-validator branch "$branch" || exit 1
 
 # Validate commits that are not yet on remote
 for commit in $(git log origin/$branch..HEAD --pretty=format:%s 2>/dev/null); do
-  npx git-validator commit "$commit" || exit 1
+  ./node_modules/.bin/git-validator commit "$commit" || exit 1
 done
 
 echo "✅ Branch and commits are valid. Push allowed!"
@@ -40,14 +40,9 @@ if (command === 'commit') {
     console.log('✅ Valid commit!');
 }
 if (command === 'branch') {
-    console.log('DEBUG argv:', process.argv);
-    console.log('DEBUG command:', command);
-    console.log('DEBUG raw value:', JSON.stringify(value));
     const branchName = value.trim();
-    console.log('DEBUG after trim:', JSON.stringify(branchName));
     const error = (0, branch_1.validateBranchName)(branchName);
     if (error) {
-        console.error('DEBUG regex test:', /^(feature|hotfix|release|bugfix|support)\/[a-z0-9._-]+$/.test(branchName));
         console.error(error);
         process.exit(1);
     }
