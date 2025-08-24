@@ -27,7 +27,7 @@ branch=$(git rev-parse --abbrev-ref HEAD)
 ./node_modules/.bin/git-validator branch "$branch" || exit 1
 
 # Validate only the last commit (simpler, avoids old history issues)
-last_commit=$(git log -1 --pretty=format:%s)
+last_commit=$(git log -1 --pretty=format:%B)
 ./node_modules/.bin/git-validator commit "$last_commit" || exit 1
 
 echo "✅ Branch and last commit are valid. Push allowed!"
@@ -47,7 +47,7 @@ echo "🚀 Running git-validator pre-push..."
 ./node_modules/.bin/git-validator branch "$branch" || exit 1
 
 # Validate only the last commit
-last_commit=$(git log -1 --pretty=format:%s)
+last_commit=$(git log -1 --pretty=format:%B)
 ./node_modules/.bin/git-validator commit "$last_commit" || exit 1
 
 echo "✅ Branch and last commit are valid. Push allowed!"
