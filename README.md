@@ -5,7 +5,8 @@ A simple CLI tool to validate **commits** and **branches** following:
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/)
 
-It automatically installs a **`pre-push` Git hook** that blocks invalid pushes.
+It automatically installs a **`pre-push` Git hook** that blocks invalid pushes.  
+Supports **custom configuration**, **detailed error reports**, and **auto-suggestions** for corrections.
 
 ---
 
@@ -32,7 +33,7 @@ Inside the repository you want to protect, run:
 npx git-validator init
 ```
 
-This will automatically create the `.git/hooks/pre-push` hook.
+This will automatically create the `.husky/pre-push` (if Husky is detected) or `.git/hooks/pre-push` hook.
 
 ---
 
@@ -57,12 +58,22 @@ npx git-validator branch "feature/new-feature"
 - `feat: add login`
 - `fix(auth): correct password hashing`
 - `chore: update dependencies`
+- `refactor(api): improve performance`
+- `docs: update README`
 
-### Invalid commits
+### Invalid commits (with auto-suggestions)
 
-- `login done`
-- `adjustments`
-- `bug fixed`
+- `fiz: corrigir bug no login`  
+  → 💡 Example: `fix: corrigir bug no login`
+
+- `WIP: implementando tela de login`  
+  → 💡 Example: `feat: implementando tela de login`
+
+- `corrigir bug no login`  
+  → 💡 Example: `feat: corrigir bug no login`
+
+- `feat: add a very very very very very very very very very very very long message`  
+  → 💡 Example: `feat: add a very very very very very very very very very long...`
 
 ---
 
@@ -72,12 +83,36 @@ npx git-validator branch "feature/new-feature"
 - `hotfix/fix-bug`
 - `release/v1.0.0`
 - `bugfix/minor-adjustment`
+- `support/legacy`
+- `feature/correção-login` ✅ (supports accents)
 
-### Invalid branches
+### Invalid branches (with auto-suggestions)
 
-- `Bugfix/NewFeature` (uppercase not allowed)
-- `fix/wrong-prefix` (prefix not allowed)
-- `feature new` (spaces not allowed)
+- `featuree/login`  
+  → 💡 Example: `feature/login`
+
+- `bug/login`  
+  → 💡 Example: `bugfix/login`
+
+- `login`  
+  → 💡 Example: `feature/login`
+
+- `feature/teste com espaço`  
+  → 💡 Example: `feature/teste-com-espaço`
+
+---
+
+## ⚙️ Configuration
+
+You can customize rules with a `.gitvalidatorrc.json` file in your project:
+
+```json
+{
+  "commitTypes": ["feat", "fix", "chore", "docs", "refactor"],
+  "branchPrefixes": ["feature", "hotfix", "release", "bugfix"],
+  "maxCommitLength": 120
+}
+```
 
 ---
 
@@ -93,6 +128,12 @@ Build:
 
 ```bash
 npm run build
+```
+
+Run tests:
+
+```bash
+npm run test
 ```
 
 ---
@@ -129,9 +170,33 @@ git-validator init
 
 ---
 
+## 🧪 Tests
+
+We use **Jest** for automated tests.  
+Examples covered:
+
+- Commit autocorrections (`fiz` → `fix`, `fet` → `feat`, etc.)
+- Blocking WIP/fixup/squash commits
+- Branch autocorrections (`featuree/` → `feature/`, `bug/` → `bugfix/`)
+- Unicode support (commits and branches with accents)
+
+Run tests:
+
+```bash
+yarn jest
+```
+
+---
+
 ## 📌 Roadmap
 
-- [ ] Allow configuration via `.gitvalidatorrc` (custom regex for commits/branches)
+- [x] Allow configuration via `.gitvalidatorrc`
+- [x] Advanced commit validation (body, footer, BREAKING CHANGE, WIP, etc.)
+- [x] Friendly error reports with auto-suggestions
+- [x] Branch autocorrection with Unicode support
+- [x] Jest automated tests
 - [ ] Publish to npm
 - [ ] Provide a GitHub Action for CI/CD validation
 - [ ] GitLab CI support
+- [ ] "fix" mode to auto-correct commits
+- [ ] Strict mode (block WIP, fixup, squash, pushes to main)
