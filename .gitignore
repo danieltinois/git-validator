@@ -8,7 +8,6 @@ package-lock.json
 yarn.lock
 
 # Build
-dist/
 coverage/
 *.tsbuildinfo
 
