@@ -1,6 +1,6 @@
 {
-  "name": "git-validator",
-  "version": "0.1.0",
+  "name": "git-validator-cli",
+  "version": "0.25.0",
   "main": "dist/index.js",
   "bin": {
     "git-validator": "dist/cli.js"
