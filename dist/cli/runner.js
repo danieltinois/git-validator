@@ -7,10 +7,10 @@ const commit_1 = require("../validators/commit");
 const env_files_1 = require("../validators/env-files");
 const hook_1 = require("./hook");
 exports.USAGE = `Usage:
-  git-validator init
-  git-validator commit "feat: add login"
-  git-validator branch "feature/new-feature"
-  git-validator files ".env.local"`;
+  git-validator-cli init
+  git-validator-cli commit "feat: add login"
+  git-validator-cli branch "feature/new-feature"
+  git-validator-cli files ".env.local"`;
 function exitWithError(message) {
     console.error(message);
     process.exit(1);

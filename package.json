@@ -1,9 +1,9 @@
 {
   "name": "git-validator-cli",
-  "version": "0.26.0",
+  "version": "0.26.1",
   "main": "dist/index.js",
   "bin": {
-    "git-validator": "dist/cli.js"
+    "git-validator-cli": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -13,6 +13,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "type": "commonjs",
   "devDependencies": {
     "@types/jest": "^30.0.0",
