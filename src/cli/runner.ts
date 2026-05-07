@@ -6,10 +6,10 @@ import { installPrePushHook } from './hook';
 type Command = 'init' | 'commit' | 'branch' | 'files';
 
 export const USAGE = `Usage:
-  git-validator init
-  git-validator commit "feat: add login"
-  git-validator branch "feature/new-feature"
-  git-validator files ".env.local"`;
+  git-validator-cli init
+  git-validator-cli commit "feat: add login"
+  git-validator-cli branch "feature/new-feature"
+  git-validator-cli files ".env.local"`;
 
 function exitWithError(message: string): never {
   console.error(message);
