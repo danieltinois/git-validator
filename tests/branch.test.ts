@@ -1,35 +1,37 @@
-import { validateCommitMessage } from '../src/validators/commit';
+import { validateBranchName } from '../src/validators/branch';
 
-describe('Commit Validator', () => {
-  it('should accept a valid commit', () => {
-    expect(validateCommitMessage('feat: add login')).toBeNull();
+describe('Branch Validator', () => {
+  it('should accept a valid branch', () => {
+    expect(validateBranchName('feature/login')).toBeNull();
   });
 
-  it('should suggest correction for typo in type', () => {
-    const result = validateCommitMessage('fiz: corrigir bug no login');
-    expect(result).toContain('💡 Example: "fix: corrigir bug no login"');
+  it('should suggest correction for typo in prefix', () => {
+    const result = validateBranchName('featuree/login');
+    expect(result).toContain('💡 Example: "feature/login"');
   });
 
-  it('should suggest correction for missing type', () => {
-    const result = validateCommitMessage('corrigir bug no login');
-    expect(result).toContain('💡 Example: "feat: corrigir bug no login"');
+  it('should suggest correction for wrong prefix', () => {
+    const result = validateBranchName('bug/login');
+    expect(result).toContain('💡 Example: "bugfix/login"');
   });
 
-  it('should block WIP commits', () => {
-    const result = validateCommitMessage('WIP: implementando tela de login');
-    expect(result).toContain('💡 Example: "feat: implementando tela de login"');
+  it('should suggest feature/ if no prefix', () => {
+    const result = validateBranchName('login');
+    expect(result).toContain('💡 Example: "feature/login"');
   });
 
-  it('should block long messages', () => {
-    const longMessage = 'feat: ' + 'a'.repeat(150);
-    const result = validateCommitMessage(longMessage);
-    expect(result).toContain('Message too long');
+  it('should block empty branch names', () => {
+    const result = validateBranchName('');
+    expect(result).toContain('Branch name cannot be empty');
   });
 
-  it('should allow BREAKING CHANGE in body', () => {
-    const commit = `refactor(api): change user endpoint
+  it('should block empty branch name', () => {
+    const result = validateBranchName('feature/');
+    expect(result).toContain('Branch name cannot be empty');
+  });
 
-BREAKING CHANGE: /users endpoint now requires authentication`;
-    expect(validateCommitMessage(commit)).toBeNull();
+  it('should replace invalid characters', () => {
+    const result = validateBranchName('feature/teste com espaço');
+    expect(result).toContain('💡 Example: "feature/teste-com-espaço"');
   });
 });

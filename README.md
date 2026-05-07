@@ -1,12 +1,12 @@
 # 🚀 git-validator
 
-A simple CLI tool to validate **commits** and **branches** following:
+A simple CLI tool to validate **commits**, **branches**, and unsafe files following:
 
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/)
 
 It automatically installs a **`pre-push` Git hook** that blocks invalid pushes.  
-Supports **custom configuration**, **detailed error reports**, and **auto-suggestions** for corrections.
+Supports **custom configuration**, **detailed error reports**, **auto-suggestions** for corrections, and blocks accidental `.env` commits.
 
 ---
 
@@ -47,6 +47,9 @@ npx git-validator commit "feat: add login"
 
 # Validate a branch name
 npx git-validator branch "feature/new-feature"
+
+# Validate committed files
+npx git-validator files ".env.local"
 ```
 
 ---
@@ -102,6 +105,23 @@ npx git-validator branch "feature/new-feature"
 
 ---
 
+### Protected files
+
+The hook blocks environment files such as:
+
+- `.env`
+- `.env.local`
+- `.env.production`
+- `apps/api/.env`
+
+Safe templates are allowed by default:
+
+- `.env.example`
+- `.env.sample`
+- `.env.template`
+
+---
+
 ## ⚙️ Configuration
 
 You can customize rules with a `.gitvalidatorrc.json` file in your project:
@@ -110,7 +130,8 @@ You can customize rules with a `.gitvalidatorrc.json` file in your project:
 {
   "commitTypes": ["feat", "fix", "chore", "docs", "refactor"],
   "branchPrefixes": ["feature", "hotfix", "release", "bugfix"],
-  "maxCommitLength": 120
+  "maxCommitLength": 120,
+  "allowedEnvFiles": [".env.example", ".env.sample", ".env.template"]
 }
 ```
 
@@ -179,6 +200,7 @@ Examples covered:
 - Blocking WIP/fixup/squash commits
 - Branch autocorrections (`featuree/` → `feature/`, `bug/` → `bugfix/`)
 - Unicode support (commits and branches with accents)
+- Blocking accidental `.env` commits
 
 Run tests:
 

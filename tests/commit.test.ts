@@ -1,32 +1,45 @@
-import { validateBranchName } from '../src/validators/branch';
+import { validateCommitMessage } from '../src/validators/commit';
 
-describe('Branch Validator', () => {
-  it('should accept a valid branch', () => {
-    expect(validateBranchName('feature/login')).toBeNull();
+describe('Commit Validator', () => {
+  it('should accept a valid commit', () => {
+    expect(validateCommitMessage('feat: add login')).toBeNull();
   });
 
-  it('should suggest correction for typo in prefix', () => {
-    const result = validateBranchName('featuree/login');
-    expect(result).toContain('💡 Example: "feature/login"');
+  it('should suggest correction for typo in type', () => {
+    const result = validateCommitMessage('fiz: corrigir bug no login');
+    expect(result).toContain('💡 Example: "fix: corrigir bug no login"');
   });
 
-  it('should suggest correction for wrong prefix', () => {
-    const result = validateBranchName('bug/login');
-    expect(result).toContain('💡 Example: "bugfix/login"');
+  it('should suggest correction for missing type', () => {
+    const result = validateCommitMessage('corrigir bug no login');
+    expect(result).toContain('💡 Example: "feat: corrigir bug no login"');
   });
 
-  it('should suggest feature/ if no prefix', () => {
-    const result = validateBranchName('login');
-    expect(result).toContain('💡 Example: "feature/login"');
+  it('should block WIP commits', () => {
+    const result = validateCommitMessage('WIP: implementando tela de login');
+    expect(result).toContain('💡 Example: "feat: implementando tela de login"');
   });
 
-  it('should block empty branch name', () => {
-    const result = validateBranchName('feature/');
-    expect(result).toContain('Branch name cannot be empty');
+  it('should block empty commit messages', () => {
+    const result = validateCommitMessage('');
+    expect(result).toContain('Commit message cannot be empty');
   });
 
-  it('should replace invalid characters', () => {
-    const result = validateBranchName('feature/teste com espaço');
-    expect(result).toContain('💡 Example: "feature/teste-com-espaço"');
+  it('should block commits without description', () => {
+    const result = validateCommitMessage('feat:');
+    expect(result).toContain('Commit description cannot be empty');
+  });
+
+  it('should block long messages', () => {
+    const longMessage = 'feat: ' + 'a'.repeat(150);
+    const result = validateCommitMessage(longMessage);
+    expect(result).toContain('Message too long');
+  });
+
+  it('should allow BREAKING CHANGE in body', () => {
+    const commit = `refactor(api): change user endpoint
+
+BREAKING CHANGE: /users endpoint now requires authentication`;
+    expect(validateCommitMessage(commit)).toBeNull();
   });
 });
