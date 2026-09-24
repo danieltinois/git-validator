@@ -59,7 +59,14 @@ jobs:
           echo "Publishing $(npm pkg get name)@$(npm pkg get version) to npm"
 
       - name: Publish to npm
-        run: npm publish --registry=https://registry.npmjs.org --access public
+        shell: bash
+        run: |
+          package_version=$(npm pkg get version | tr -d '"')
+          if npm view "git-validator-cli@${package_version}" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "git-validator-cli@${package_version} already exists on npm; skipping."
+          else
+            npm publish --registry=https://registry.npmjs.org --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
