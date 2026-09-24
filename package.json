@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danieltinois/git-validator.git"
+    "url": "git+https://github.com/danieltinois/git-validator.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
