@@ -1,5 +1,5 @@
 {
-  "name": "danieltinois/git-validator-cli",
+  "name": "@danieltinois/git-validator-cli",
   "version": "0.26.2",
   "main": "dist/index.js",
   "bin": {

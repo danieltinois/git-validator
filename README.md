@@ -30,7 +30,7 @@ npm run build
 Inside the repository you want to protect, run:
 
 ```bash
-npx git-validator-cli init
+npx @danieltinois/git-validator-cli init
 ```
 
 This will automatically create the `.husky/pre-push` (if Husky is detected) or `.git/hooks/pre-push` hook.
@@ -43,13 +43,13 @@ You can also validate manually:
 
 ```bash
 # Validate a commit message
-npx git-validator-cli commit "feat: add login"
+npx @danieltinois/git-validator-cli commit "feat: add login"
 
 # Validate a branch name
-npx git-validator-cli branch "feature/new-feature"
+npx @danieltinois/git-validator-cli branch "feature/new-feature"
 
 # Validate committed files
-npx git-validator-cli files ".env.local"
+npx @danieltinois/git-validator-cli files ".env.local"
 ```
 
 ---
@@ -168,7 +168,7 @@ There are two ways to use it in other repositories:
 Inside the project you want to protect:
 
 ```bash
-npx git-validator-cli init
+npx @danieltinois/git-validator-cli init
 ```
 
 This installs the `pre-push` hook and you’re ready to go 🚀
@@ -180,7 +180,7 @@ This installs the `pre-push` hook and you’re ready to go 🚀
 If you want to use it in any project without installing locally:
 
 ```bash
-npm install -g git-validator-cli
+npm install -g @danieltinois/git-validator-cli
 ```
 
 Now in any repository:
