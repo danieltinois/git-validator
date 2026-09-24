@@ -2,6 +2,13 @@
   "name": "@danieltinois/git-validator-cli",
   "version": "0.26.2",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danieltinois/git-validator.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "bin": {
     "git-validator-cli": "dist/cli.js"
   },
