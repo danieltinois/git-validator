@@ -53,9 +53,15 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Prepare npm package name
-        run: npm pkg set name=git-validator-cli
+        run: |
+          npm pkg set name=git-validator-cli
+          npm pkg delete publishConfig
+          echo "Publishing $(npm pkg get name)@$(npm pkg get version) to npm"
 
       - name: Publish to npm
         run: npm publish --registry=https://registry.npmjs.org --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify npm publication
+        run: npm view git-validator-cli@$(npm pkg get version | tr -d '"') version --registry=https://registry.npmjs.org
